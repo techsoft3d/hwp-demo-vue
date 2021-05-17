@@ -25,6 +25,10 @@
       "dom",
       "dom.iterable",
       "scripthost"
+    ],
+    "typeRoots": [
+      "src/@types/hwp_2020",
+      "node_modules/@types"
     ]
   },
   "include": [
