@@ -54,7 +54,7 @@
             <h2>Vue.js Demo for Hoops Web Platform</h2>
             <!-- Operator Selection -->
             <h5>Operator</h5>
-            <select class="form-select mb-3">
+            <select class="form-select mb-3" @change="changeOperator($event)">
               <option value="Orbit">Orbit</option>
               <option value="Area Select">Area Select</option>
               <option value="Select">Select</option>
@@ -139,6 +139,7 @@ export default defineComponent({
       isStructureReady: false,
       currentTab: 1, // 1: Home, 2: ModelTree
       operator: "Orbit",
+      hwv: undefined as Communicator.WebViewer | undefined,
     };
   },
   methods: {
@@ -155,10 +156,24 @@ export default defineComponent({
           this.cameraStatus = hwv.view.getCamera().toJson() as CameraStatus;
         },
       });
+      this.hwv = hwv;
     },
     changeTab(newTab: number) {
       this.currentTab = newTab;
     },
+    changeOperator(event: Event) {
+      if (!this.hwv) return;
+      this.hwv.operatorManager.clear();
+      this.hwv.operatorManager.push(Communicator.OperatorId.Orbit);
+      let newOperator = (event.target as HTMLSelectElement).value;
+      if (newOperator === "Area Select") {
+        this.hwv.operatorManager.push(Communicator.OperatorId.AreaSelect);
+      } else if (newOperator === "Select") {
+        this.hwv.operatorManager.push(Communicator.OperatorId.Select);
+      } else if (newOperator === "Measure") {
+        this.hwv.operatorManager.push(Communicator.OperatorId.MeasurePointPointDistance);
+      }
+    }
   },
 });
 </script>
