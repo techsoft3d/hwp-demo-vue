@@ -47,10 +47,7 @@
         <!-- Tab Contents -->
         <div class="tab-content p-3">
           <!-- Home Tab -->
-          <div
-            class="tab-pane fade show"
-            :class="{ active: currentTab == 1 }"
-          >
+          <div class="tab-pane fade show" :class="{ active: currentTab == 1 }">
             <h2>Vue.js Demo for Hoops Web Platform</h2>
             <!-- Operator Selection -->
             <h5>Operator</h5>
@@ -99,16 +96,10 @@
           </div>
           <!-- Home Tab End -->
           <!-- ModelStructure Tab -->
-          <div
-            class="tab-pane fade show"
-            :class="{ active: currentTab == 2 }"
-          >
+          <div class="tab-pane fade show" :class="{ active: currentTab == 2 }">
             <h5>Model Structure</h5>
-            <p v-if="!isStructureReady">Model structure is not ready"</p>
-            <!-- <app-model-tree v-else
-              *ngIf="modelStructureIsReady"
-              [hwv]="hwv"
-            ></app-model-tree> -->
+            <p v-if="!isStructureReady">Model structure is not ready.</p>
+            <ModelTreeComponent v-else v-bind:hwv="hwv"></ModelTreeComponent>
           </div>
           <!-- ModelStructure Tab End -->
         </div>
@@ -122,6 +113,7 @@
 
 <script lang="ts">
 import ViewerComponent from "./components/viewer-component.vue";
+import ModelTreeComponent from "./components/model-tree-component.vue";
 import { defineComponent } from "vue";
 import { CameraStatus } from "./data/camera-status";
 
@@ -129,6 +121,7 @@ export default defineComponent({
   name: "App",
   components: {
     ViewerComponent,
+    ModelTreeComponent,
   },
   data() {
     return {
@@ -158,6 +151,7 @@ export default defineComponent({
       });
       this.hwv = hwv;
     },
+    // Methods for event handeling
     changeTab(newTab: number) {
       this.currentTab = newTab;
     },
@@ -171,9 +165,11 @@ export default defineComponent({
       } else if (newOperator === "Select") {
         this.hwv.operatorManager.push(Communicator.OperatorId.Select);
       } else if (newOperator === "Measure") {
-        this.hwv.operatorManager.push(Communicator.OperatorId.MeasurePointPointDistance);
+        this.hwv.operatorManager.push(
+          Communicator.OperatorId.MeasurePointPointDistance
+        );
       }
-    }
+    },
   },
 });
 </script>
