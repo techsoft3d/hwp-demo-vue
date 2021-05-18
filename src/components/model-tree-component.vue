@@ -1,10 +1,7 @@
 <template>
   <div class="list-group">
-    <ModelTreeItemComponent
-      :hwv="hwv"
-      :node-id="rootNode"
-      :level="0"
-    ></ModelTreeItemComponent>
+    <div></div>
+    <ModelTreeItemComponent :hwv="hwv" :node-id="rootNode" :level="0" />
   </div>
 </template>
 
@@ -20,7 +17,7 @@ export default defineComponent({
   setup() {
     // Provide the list of selected nodes to all the children
     const selectedNodeIds = ref(Array<Communicator.NodeId>());
-    provide('selectedNodeIds', selectedNodeIds);
+    provide("selectedNodeIds", selectedNodeIds);
 
     return { selectedNodeIds };
   },
