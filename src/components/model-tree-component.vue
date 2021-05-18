@@ -2,19 +2,27 @@
   <div class="list-group">
     <ModelTreeItemComponent
       :hwv="hwv"
-      :node-id="getRootNode(hwv)"
+      :node-id="rootNode"
       :level="0"
     ></ModelTreeItemComponent>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, provide, ref } from "vue";
 import ModelTreeItemComponent from "./model-tree-item-component.vue";
 
 export default defineComponent({
+  name: "ModelTreeComponent",
   components: {
     ModelTreeItemComponent,
+  },
+  setup() {
+    // Provide the list of selected nodes to all the children
+    const selectedNodeIds = ref(Array<Communicator.NodeId>());
+    provide('selectedNodeIds', selectedNodeIds);
+
+    return { selectedNodeIds };
   },
   props: {
     hwv: {
@@ -22,15 +30,24 @@ export default defineComponent({
       required: true,
     },
   },
-  data() {
-    return {
-      itemList: [],
-    };
-  },
-  methods: {
-    getRootNode(webViewer: Communicator.WebViewer) {
-      return webViewer.model.getAbsoluteRootNode();
+  computed: {
+    rootNode(): number {
+      return this.hwv.model.getAbsoluteRootNode();
     },
+  },
+  created() {
+    this.hwv.setCallbacks({
+      selectionArray: (selectionEvents) => {
+        // Update selected node id's
+        this.selectedNodeIds = [];
+        selectionEvents.forEach((event) => {
+          const nodeId = event.getSelection().getNodeId();
+          if (nodeId) {
+            this.selectedNodeIds.push(nodeId);
+          }
+        });
+      },
+    });
   },
 });
 </script>

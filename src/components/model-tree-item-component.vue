@@ -1,19 +1,22 @@
 <template>
   <div
-    style="{
-      margin-bottom: -1px;
-    }"
+    style="
+       {
+        margin-bottom: -1px;
+      }
+    "
     :style="{ paddingLeft: level * 20 + 10 + 'px' }"
     class="list-group-item list-group-item-action d-flex py-1"
     :class="{
-      'd-none': nodeName.length <= 0
+      'd-none': nodeName.length <= 0,
+      'bg-primary text-white': isSelected,
     }"
   >
     <div
       class="py-1"
-      :class="{ 
-        caret: childrenIds.length > 0, 
-        'caret-down': !isCollapsed 
+      :class="{
+        caret: childrenIds.length > 0,
+        'caret-down': !isCollapsed,
       }"
     ></div>
     <div class="py-1 flex-fill cursor-pointer user-select-none">
@@ -30,10 +33,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, inject } from "vue";
 
 export default defineComponent({
   name: "ModelTreeItemComponent",
+  setup() {
+    // Inject Data
+    const selectedNodeIds = inject<Communicator.NodeId[]>("selectedNodeIds");
+    return { selectedNodeIds };
+  },
   emits: {
     itemReady: null,
   },
@@ -56,8 +64,15 @@ export default defineComponent({
       nodeName: "",
       childrenIds: [] as number[],
       isCollapsed: false,
-      isSelected: false,
     };
+  },
+  computed: {
+    isSelected(): boolean {
+      if (!this.selectedNodeIds) {
+        return false;
+      }
+      return this.selectedNodeIds.includes(this.nodeId);
+    },
   },
   created() {
     switch (this.hwv.model.getNodeType(this.nodeId)) {
