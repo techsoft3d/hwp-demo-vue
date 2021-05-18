@@ -1,9 +1,21 @@
 <template>
   <div
-    :style="{ paddingLeft: level * 20 + 10 + 'px', marginBottom: -1 + 'px' }"
+    style="{
+      margin-bottom: -1px;
+    }"
+    :style="{ paddingLeft: level * 20 + 10 + 'px' }"
     class="list-group-item list-group-item-action d-flex py-1"
+    :class="{
+      'd-none': nodeName.length <= 0
+    }"
   >
-    <div class="py-1"></div>
+    <div
+      class="py-1"
+      :class="{ 
+        caret: childrenIds.length > 0, 
+        'caret-down': !isCollapsed 
+      }"
+    ></div>
     <div class="py-1 flex-fill cursor-pointer user-select-none">
       {{ nodeName }}
     </div>
@@ -15,7 +27,6 @@
     :hwv="hwv"
     :key="childId"
   ></ModelTreeItemComponent>
-  <!-- <app-model-tree-item *ngFor="let child of children" [ngClass]="{'d-none': isCollapsed}" [modelTree]="modelTree" [hwv]="hwv" [nodeId]="child" [level]="level+1"></app-model-tree-item> -->
 </template>
 
 <script lang="ts">
