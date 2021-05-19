@@ -20,7 +20,7 @@
       class="py-1 flex-fill cursor-pointer user-select-none"
       @click="onSelectClick()"
     >
-      {{ nodeName }}
+      {{ nodeName }}: {{ nodeId }}
     </div>
   </div>
   <div
@@ -43,10 +43,15 @@ import { defineComponent, inject } from "vue";
 
 export default defineComponent({
   name: "ModelTreeItemComponent",
-  setup() {
+  setup(prop) {
     // Inject Data
-    const selectedNodeIds = inject<Communicator.NodeId[]>("selectedNodeIds");
-    return { selectedNodeIds };
+    const nodeSelectionStates = inject<{ [key: number]: boolean }>(
+      "nodeSelectionStates"
+    );
+    if (nodeSelectionStates) {
+      nodeSelectionStates[prop.nodeId] = false;
+    }
+    return { nodeSelectionStates };
   },
   props: {
     nodeId: {
@@ -71,10 +76,10 @@ export default defineComponent({
   },
   computed: {
     isSelected(): boolean {
-      if (!this.selectedNodeIds) {
+      if (!this.nodeSelectionStates || !this.nodeSelectionStates[this.nodeId]) {
         return false;
       }
-      return this.selectedNodeIds.includes(this.nodeId);
+      return this.nodeSelectionStates[this.nodeId];
     },
   },
   created() {

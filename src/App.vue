@@ -48,7 +48,13 @@
         <div class="tab-content p-3">
           <!-- Home Tab -->
           <div class="tab-pane fade show" :class="{ active: currentTab == 1 }">
-            <h2>Vue.js Demo for Hoops Web Platform</h2>
+              <img
+                src="https://raw.githubusercontent.com/vuejs/art/master/logo.png"
+                class="d-inline-block align-middle"
+                v-bind:style="{ maxHeight: '100px' }"
+                alt="Vue.js LOGO"
+              />
+              <h2 class="d-inline-block align-middle">Vue.js Demo for Hoops Web Platform</h2>
             <!-- Operator Selection -->
             <h5>Operator</h5>
             <select class="form-select mb-3" @change="changeOperator($event)">
@@ -126,7 +132,7 @@ export default defineComponent({
   data() {
     return {
       // Attach base url so the path will always work
-      modelPath: process.env.BASE_URL + "assets/aquo_bottle.scs",
+      modelPath: process.env.BASE_URL + "assets/bnc.scs",
       imgPath: process.env.BASE_URL + "assets/ts3d_logo.png",
       cameraStatus: undefined as CameraStatus | undefined,
       isStructureReady: false,

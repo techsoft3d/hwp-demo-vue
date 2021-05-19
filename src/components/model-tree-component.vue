@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, provide, ref } from "vue";
+import { defineComponent, provide, reactive } from "vue";
 import ModelTreeItemComponent from "./model-tree-item-component.vue";
 
 export default defineComponent({
@@ -15,11 +15,11 @@ export default defineComponent({
     ModelTreeItemComponent,
   },
   setup() {
-    // Provide the list of selected nodes to all the children
-    const selectedNodeIds = ref(Array<Communicator.NodeId>());
-    provide("selectedNodeIds", selectedNodeIds);
+    // Provide the state of selected nodes to all the children
+    const nodeSelectionStates = reactive<{[key:number]:boolean}>({});
+    provide("nodeSelectionStates", nodeSelectionStates);
 
-    return { selectedNodeIds };
+    return { nodeSelectionStates };
   },
   props: {
     hwv: {
@@ -36,11 +36,13 @@ export default defineComponent({
     this.hwv.setCallbacks({
       selectionArray: (selectionEvents) => {
         // Update selected node id's
-        this.selectedNodeIds = [];
+        for (var key in this.nodeSelectionStates) {
+          this.nodeSelectionStates[key] = false;
+        }
         selectionEvents.forEach((event) => {
           const nodeId = event.getSelection().getNodeId();
-          if (nodeId) {
-            this.selectedNodeIds.push(nodeId);
+          if (nodeId != null) {
+            this.nodeSelectionStates[nodeId] = true;
           }
         });
       },
