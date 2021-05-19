@@ -1,5 +1,5 @@
 # Hoops Web Viewer Vue.js Demo
-This is a demo for intergrating [Hoops Web Platform](https://www.techsoft3d.com/products/hoops/communicator/) (HWP) with [Vue.js](https://v3.vuejs.org/) framework. It is bootstraped with [Vue CLI](https://cli.vuejs.org/) and utilizes typescript.
+This is a demo for intergrating [Hoops Web Platform](https://www.techsoft3d.com/products/hoops/communicator/) (HWP) with [Vue.js](https://v3.vuejs.org/) framework. It is bootstraped with [Vue CLI](https://cli.vuejs.org/) and utilizes TypeScript.
 
 ## Live Demo
 A live demo is running with GitHub Pages at: https://techsoft3d.github.io/hwp-demo-vue/ 
