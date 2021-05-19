@@ -27,7 +27,7 @@
       "scripthost"
     ],
     "typeRoots": [
-      "src/@types/hwp_2020",
+      "src/@types",
       "node_modules/@types"
     ]
   },
