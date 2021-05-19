@@ -132,7 +132,7 @@ export default defineComponent({
   data() {
     return {
       // Attach base url so the path will always work
-      modelPath: process.env.BASE_URL + "assets/bnc.scs",
+      modelPath: process.env.BASE_URL + "assets/drive_assembly.scs",
       imgPath: process.env.BASE_URL + "assets/ts3d_logo.png",
       cameraStatus: undefined as CameraStatus | undefined,
       isStructureReady: false,
